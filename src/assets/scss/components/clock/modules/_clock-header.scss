@@ -1,0 +1,14 @@
+.clock-header {
+	text-align: center;
+	font-weight: bolder;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	margin-bottom: 15px;
+	#clock-header-logo {
+		margin-left: 5px;
+		width: 35px;
+		height: 35px;
+	}
+}
