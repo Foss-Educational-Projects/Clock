@@ -16,8 +16,14 @@ body, html {
 	background-position: center;
 	background-repeat: no-repeat;
 	width: inherit;
-	height: inherit;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+@media (orientation:landscape){
+	#root {
+		height: auto;
+		min-height: 100%!important;
+	}	
 }
