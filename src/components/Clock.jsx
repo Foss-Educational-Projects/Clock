@@ -1,4 +1,5 @@
 import React from "react";
+import { useRef } from "react";
 import Button from 'react-bootstrap/Button'
 import { useSelector, useDispatch } from "react-redux";
 
@@ -8,6 +9,9 @@ import { resumeTimer } from "../features/timerSlice";
 
 import Logo from "./../assets/images/clock-2.png"
 const Clock = () => {
+	const sec = useRef(null);
+	const min = useRef(null);
+	let dataResumed = false;
 	const breakValue = useSelector(state => state.break.value)
 	const sessionValue = useSelector(state => state.session.value)
 	const timerResumed = useSelector(state => state.timer.value)
@@ -17,11 +21,25 @@ const Clock = () => {
 		dispatch(resetBreak())
 		dispatch(resetSession())
 	}
-	const pauseTimer = () => {
-
-	}
 	const toggleTimer = () => {
-		dispatch(resumeTimer(false))
+		dispatch(resumeTimer(true))
+		timerFeature();
+		!dataResumed ? false : true;
+		console.log(dataResumed)
+	}
+	const clockFeature = () => {
+		if (parseInt(sec.current.textContent) < 9) {
+			sec.current.textContent = `0${parseInt(sec.current.textContent) + 1}`;
+		}
+		else {
+			sec.current.textContent = parseInt(sec.current.textContent) + 1;
+		}
+	}
+	const timerFeature = () => {
+		let timerInterval = setInterval(clockFeature, 1000)
+		if (!dataResumed) {
+			clearInterval(timerInterval)
+		}
 	}
 	return (
 		<div className="clock">
@@ -36,9 +54,13 @@ const Clock = () => {
 						if (timerResumed) {
 							return (
 								<div className="break-section-settings">
-									<Button disabled={true} className="break-increase" onClick={() => dispatch(increaseBreak())}><i className="fa-solid fa-plus"></i></Button>
+									<Button disabled={true} className="break-increase" onClick={() => dispatch(increaseBreak())}>
+										<i className="fa-solid fa-plus"></i>
+									</Button>
 									<p className="values">{breakValue}</p>
-									<Button disabled={true} className="break-decrease" onClick={() => dispatch(decreaseBreak())}><i className="fa-solid fa-minus"></i></Button>
+									<Button disabled={true} className="break-decrease" onClick={() => dispatch(decreaseBreak())}>
+										<i className="fa-solid fa-minus"></i>
+									</Button>
 								</div>
 							)
 						}
@@ -67,7 +89,9 @@ const Clock = () => {
 										<i className="fa-solid fa-plus"></i>
 									</Button>
 									<p className="values">{sessionValue}</p>
-									<Button disabled={true} className="session-decrease" onClick={() => dispatch(decreaseSession())}><i className="fa-solid fa-minus"></i></Button>
+									<Button disabled={true} className="session-decrease" onClick={() => dispatch(decreaseSession())}>
+										<i className="fa-solid fa-minus"></i>
+									</Button>
 								</div>
 							)
 						}
@@ -91,15 +115,21 @@ const Clock = () => {
 				<div className="timer-display">
 					<h2 className="timer-header">Remaining</h2>
 					<div className="timer-clock">
-						<p>{sessionValue}</p>
+						<p ref={min}>{sessionValue}</p>
 						<p>:</p>
-						<p>00</p>
+						<p ref={sec}>00</p>
 					</div>
 				</div>
 				<div className="timer-controls">
-					<Button className='timer-start' onClick={toggleTimer}><i className="fa-solid fa-play"></i></Button>
-					<Button className='timer-pause'><i className="fa-solid fa-pause"></i></Button>
-					<Button className='timer-reset' onClick={resetAll}><i className="fa-solid fa-arrows-rotate"></i></Button>
+					<Button className='timer-start' data-resumed={dataResumed} onClick={toggleTimer}>
+						<i className="fa-solid fa-play"></i>
+					</Button>
+					<Button className='timer-pause' data-resumed={dataResumed} onClick={toggleTimer}>
+						<i className="fa-solid fa-pause"></i>
+					</Button>
+					<Button className='timer-reset' onClick={resetAll}>
+						<i className="fa-solid fa-arrows-rotate"></i>
+					</Button>
 				</div>
 			</div>
 			<footer className="clock-footer">
