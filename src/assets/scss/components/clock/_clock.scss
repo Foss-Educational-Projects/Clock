@@ -20,7 +20,6 @@
 	color: whitesmoke;
 }
 
-
 button {
 	background: none;
 	border: none;
@@ -31,6 +30,8 @@ button {
 	cursor: pointer;
 	position: relative;
 	display: flex;
+	transition: box-shadow, 200ms ease-in-out;
+	-webkit-tap-highlight-color:transparent;
 	i {
 		font-size: 1.5em;
 		color: white;
@@ -45,5 +46,9 @@ button {
 			left: 50%;
 			transform: translate(-50%, -50%);
 		}
+	}
+	&:focus {
+		transition: box-shadow, 200ms ease-in-out;
+		box-shadow: 0 0 10px var(--accent-color);
 	}
 }
