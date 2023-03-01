@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Button from 'react-bootstrap/Button'
 
 import { useSelector, useDispatch } from "react-redux";
@@ -8,13 +8,16 @@ import Logo from "./../assets/images/clock-2.png"
 import Alarm from './../assets/audios/alarm.mp3';
 
 import { increaseSession, decreaseSession } from "../features/sessionSlice";
+import { increaseBreak, decreaseBreak } from "../features/breakSlice";
+import { countDown } from "../features/timerSlice";
 
 const Clock = () => {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch()
+	const currentTimer = "Session";
 	const session = useSelector(state => state.session.value)
+	const rest = useSelector(state => state.break.value)
 	const min = useSelector(state => state.time.min)
 	const sec = useSelector(state => state.time.sec)
-
 	return (
 		<div className="clock">
 			<h1 className="clock-header">
@@ -25,11 +28,11 @@ const Clock = () => {
 				<div className="break-section">
 					<h3 className="break-section-title" id="break-label">Break Length</h3>
 					<div className="break-section-settings">
-						<Button className="break-decrease" id="break-decrement">
+						<Button className="break-decrease" id="break-decrement" onClick={() => dispatch(decreaseBreak())}>
 							<i className="fa-solid fa-minus"></i>
 						</Button>
-						<p className="values" id="break-length">5</p>
-						<Button className="break-increase" id="break-increment">
+						<p className="values" id="break-length">{rest}</p>
+						<Button className="break-increase" id="break-increment" onClick={() => dispatch(increaseBreak())}>
 							<i className="fa-solid fa-plus"></i>
 						</Button>
 					</div>
@@ -49,13 +52,13 @@ const Clock = () => {
 			</div>
 			<div className="timer">
 				<div className="timer-display">
-					<h2 className="timer-header" id="timer-label">Session</h2>
+					<h2 className="timer-header" id="timer-label">{currentTimer}</h2>
 					<div className="timer-clock">
 						<p id="time-left">{min}:{sec}</p>
 					</div>
 				</div>
 				<div className="timer-controls">
-					<Button className='timer-start' id="start_stop">
+					<Button className='timer-start' id="start_stop" onClick={() => setInterval(() => dispatch(countDown()), 10)}>
 						<i className="fa-solid fa-play"></i>
 					</Button>
 					<Button className='timer-pause'>

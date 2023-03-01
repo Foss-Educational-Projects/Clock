@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const initialState = {
 	value: 25
 }
@@ -27,6 +26,9 @@ const sessionSlice = createSlice({
 				state.value--;
 			}
 		}
+	},
+	extraReducers(builder) {
+		builder.decrease
 	}
 }) 
 
