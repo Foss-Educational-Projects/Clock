@@ -31,3 +31,9 @@
 		justify-content: space-evenly;
 	}
 }
+
+@media (max-width: 450px) {
+	.break-and-session {
+		flex-direction: column;
+	}
+}

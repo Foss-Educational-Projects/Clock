@@ -1,25 +1,34 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
 	value: 25
 }
 
 const sessionSlice = createSlice({
-	name: "session",
+	name:'session',
 	initialState,
 	reducers: {
-		increaseSession: (state, action) => {
-			(state.value > 59) ? state.value = 60 : state.value++
-			
+		setSession: (state, action) => {
+			state.value = action.payload;
 		},
-		decreaseSession: (state, action) => {
-			(state.value < 2) ? state.value = 1 : state.value--
+		increaseSession: (state, _) => {
+			if(state.value === 60) {
+				console.log("Session Upper Limit Reached")
+			}
+			else {
+				state.value++;
+			}
 		},
-		resetSession: (state) => {
-			state.value = 25
+		decreaseSession: (state, _) => {
+			if(state.value === 1) {
+				console.log("Session Lower Limit Reached")
+			}
+			else {
+				state.value--;
+			}
 		}
 	}
-})
+}) 
 
-export const { increaseSession, decreaseSession, resetSession } = sessionSlice.actions;
+export const { setSession, increaseSession, decreaseSession } = sessionSlice.actions;
 export default sessionSlice.reducer;

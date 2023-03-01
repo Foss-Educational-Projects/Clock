@@ -1,46 +1,20 @@
 import React from "react";
-import { useRef } from "react";
 import Button from 'react-bootstrap/Button'
+
 import { useSelector, useDispatch } from "react-redux";
 
-import { increaseBreak, decreaseBreak, resetBreak } from "../features/breakSlice";
-import { increaseSession, decreaseSession, resetSession } from "../features/sessionSlice";
-import { resumeTimer } from "../features/timerSlice";
-
 import Logo from "./../assets/images/clock-2.png"
-const Clock = () => {
-	const sec = useRef(null);
-	const min = useRef(null);
-	let dataResumed = false;
-	const breakValue = useSelector(state => state.break.value)
-	const sessionValue = useSelector(state => state.session.value)
-	const timerResumed = useSelector(state => state.timer.value)
 
+import Alarm from './../assets/audios/alarm.mp3';
+
+import { increaseSession, decreaseSession } from "../features/sessionSlice";
+
+const Clock = () => {
 	const dispatch = useDispatch();
-	const resetAll = () => {
-		dispatch(resetBreak())
-		dispatch(resetSession())
-	}
-	const toggleTimer = () => {
-		dispatch(resumeTimer(true))
-		timerFeature();
-		!dataResumed ? false : true;
-		console.log(dataResumed)
-	}
-	const clockFeature = () => {
-		if (parseInt(sec.current.textContent) < 9) {
-			sec.current.textContent = `0${parseInt(sec.current.textContent) + 1}`;
-		}
-		else {
-			sec.current.textContent = parseInt(sec.current.textContent) + 1;
-		}
-	}
-	const timerFeature = () => {
-		let timerInterval = setInterval(clockFeature, 1000)
-		if (!dataResumed) {
-			clearInterval(timerInterval)
-		}
-	}
+	const session = useSelector(state => state.session.value)
+	const min = useSelector(state => state.time.min)
+	const sec = useSelector(state => state.time.sec)
+
 	return (
 		<div className="clock">
 			<h1 className="clock-header">
@@ -49,85 +23,45 @@ const Clock = () => {
 			</h1>
 			<div className="break-and-session">
 				<div className="break-section">
-					<h3 className="break-section-title">Break</h3>
-					{(() => {
-						if (timerResumed) {
-							return (
-								<div className="break-section-settings">
-									<Button disabled={true} className="break-increase" onClick={() => dispatch(increaseBreak())}>
-										<i className="fa-solid fa-plus"></i>
-									</Button>
-									<p className="values">{breakValue}</p>
-									<Button disabled={true} className="break-decrease" onClick={() => dispatch(decreaseBreak())}>
-										<i className="fa-solid fa-minus"></i>
-									</Button>
-								</div>
-							)
-						}
-						else {
-							return (
-								<div className="break-section-settings">
-									<Button className="break-increase" onClick={() => dispatch(increaseBreak())}>
-										<i className="fa-solid fa-plus"></i>
-									</Button>
-									<p className="values">{breakValue}</p>
-									<Button className="break-decrease" onClick={() => dispatch(decreaseBreak())}>
-										<i className="fa-solid fa-minus"></i>
-									</Button>
-								</div>
-							)
-						}
-					})()}
+					<h3 className="break-section-title" id="break-label">Break Length</h3>
+					<div className="break-section-settings">
+						<Button className="break-decrease" id="break-decrement">
+							<i className="fa-solid fa-minus"></i>
+						</Button>
+						<p className="values" id="break-length">5</p>
+						<Button className="break-increase" id="break-increment">
+							<i className="fa-solid fa-plus"></i>
+						</Button>
+					</div>
 				</div>
 				<div className="session-section">
-					<h3 className="session-section-title">Session</h3>
-					{(() => {
-						if (timerResumed) {
-							return (
-								<div className="session-section-settings">
-									<Button disabled={true} className="session-increase" onClick={() => dispatch(increaseSession())}>
-										<i className="fa-solid fa-plus"></i>
-									</Button>
-									<p className="values">{sessionValue}</p>
-									<Button disabled={true} className="session-decrease" onClick={() => dispatch(decreaseSession())}>
-										<i className="fa-solid fa-minus"></i>
-									</Button>
-								</div>
-							)
-						}
-						else {
-							return (
-								<div className="session-section-settings">
-									<Button className="session-increase" onClick={() => dispatch(increaseSession())}>
-										<i className="fa-solid fa-plus"></i>
-									</Button>
-									<p className="values">{sessionValue}</p>
-									<Button className="session-decrease" onClick={() => dispatch(decreaseSession())}>
-										<i className="fa-solid fa-minus"></i>
-									</Button>
-								</div>
-							)
-						}
-					})()}
+					<h3 className="session-section-title" id="session-label">Session Length</h3>
+					<div className="session-section-settings">
+						<Button className="session-decrease" id="session-decrement" onClick={() => dispatch(decreaseSession())}>
+							<i className="fa-solid fa-minus"></i>
+						</Button>
+						<p className="values" id="session-length">{session}</p>
+						<Button className="session-increase" id="session-increment" onClick={() => dispatch(increaseSession())}>
+							<i className="fa-solid fa-plus"></i>
+						</Button>
+					</div>
 				</div>
 			</div>
 			<div className="timer">
 				<div className="timer-display">
-					<h2 className="timer-header">Remaining</h2>
+					<h2 className="timer-header" id="timer-label">Session</h2>
 					<div className="timer-clock">
-						<p ref={min}>{sessionValue}</p>
-						<p>:</p>
-						<p ref={sec}>00</p>
+						<p id="time-left">{min}:{sec}</p>
 					</div>
 				</div>
 				<div className="timer-controls">
-					<Button className='timer-start' data-resumed={dataResumed} onClick={toggleTimer}>
+					<Button className='timer-start' id="start_stop">
 						<i className="fa-solid fa-play"></i>
 					</Button>
-					<Button className='timer-pause' data-resumed={dataResumed} onClick={toggleTimer}>
+					<Button className='timer-pause'>
 						<i className="fa-solid fa-pause"></i>
 					</Button>
-					<Button className='timer-reset' onClick={resetAll}>
+					<Button className='timer-reset' id="reset">
 						<i className="fa-solid fa-arrows-rotate"></i>
 					</Button>
 				</div>
