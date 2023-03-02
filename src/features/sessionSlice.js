@@ -26,9 +26,6 @@ const sessionSlice = createSlice({
 				state.value--;
 			}
 		}
-	},
-	extraReducers(builder) {
-		builder.decrease
 	}
 }) 
 
