@@ -11,6 +11,9 @@ import { increaseSession, decreaseSession } from "../features/sessionSlice";
 import { increaseBreak, decreaseBreak } from "../features/breakSlice";
 import { countDown } from "../features/timerSlice";
 
+var resume = true
+var interval;
+var duration = 100;
 const Clock = () => {
 	const dispatch = useDispatch()
 	const currentTimer = "Session";
@@ -18,6 +21,24 @@ const Clock = () => {
 	const rest = useSelector(state => state.break.value)
 	const min = useSelector(state => state.time.min)
 	const sec = useSelector(state => state.time.sec)
+	const resumeCountDown = () => {
+		interval = setInterval(() => dispatch(countDown()), duration)
+		resume = false;
+		console.log(resume + "0")
+	}
+	const stopCountDown = () => {
+		clearInterval(interval)
+		resume = true;
+		console.log(resume + "1")
+	}
+	const playAlarm = () => {
+		const bell = document.getElementById("bell")
+		const timeLeft = document.getElementById("time-left").textContent.split(":")
+		if (parseInt(timeLeft[0]) === 0 && parseInt(timeLeft[1]) === 0) {
+			bell.play()
+			console.log("ExecutingBell")
+		}
+	}
 	return (
 		<div className="clock">
 			<h1 className="clock-header">
@@ -54,14 +75,15 @@ const Clock = () => {
 				<div className="timer-display">
 					<h2 className="timer-header" id="timer-label">{currentTimer}</h2>
 					<div className="timer-clock">
-						<p id="time-left">{min}:{sec}</p>
+						<audio src={Alarm} id="bell" />
+						<p id="time-left" onChange={playAlarm}>{min}:{sec}</p>
 					</div>
 				</div>
 				<div className="timer-controls">
-					<Button className='timer-start' id="start_stop" onClick={() => setInterval(() => dispatch(countDown()), 10)}>
+					<Button className='timer-start' id="start_stop" onClick={() => { (resume === undefined || resume === true) ? resumeCountDown() : stopCountDown() }}>
 						<i className="fa-solid fa-play"></i>
 					</Button>
-					<Button className='timer-pause'>
+					<Button className='timer-pause' onClick={() => { (resume === undefined || resume === true) ? resumeCountDown() : stopCountDown() }}>
 						<i className="fa-solid fa-pause"></i>
 					</Button>
 					<Button className='timer-reset' id="reset">
