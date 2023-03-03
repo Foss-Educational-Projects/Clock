@@ -7,6 +7,7 @@ specifiers:
   '@types/react-dom': ^18.0.11
   '@vitejs/plugin-react-swc': ^3.2.0
   bootstrap: ^5.2.3
+  prettier: ^2.8.4
   react: ^18.2.0
   react-bootstrap: ^2.7.2
   react-dom: ^18.2.0
@@ -27,6 +28,7 @@ devDependencies:
   '@types/react': registry.npmjs.org/@types/react/18.0.28
   '@types/react-dom': registry.npmjs.org/@types/react-dom/18.0.11
   '@vitejs/plugin-react-swc': registry.npmjs.org/@vitejs/plugin-react-swc/3.2.0_vite@4.1.4
+  prettier: registry.npmjs.org/prettier/2.8.4
   sass: registry.npmjs.org/sass/1.58.3
   vite: registry.npmjs.org/vite/4.1.4_sass@1.58.3
 
@@ -850,6 +852,14 @@ packages:
       nanoid: registry.npmjs.org/nanoid/3.3.4
       picocolors: registry.npmjs.org/picocolors/1.0.0
       source-map-js: registry.npmjs.org/source-map-js/1.0.2
+    dev: true
+
+  registry.npmjs.org/prettier/2.8.4:
+    resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/prettier/-/prettier-2.8.4.tgz}
+    name: prettier
+    version: 2.8.4
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   registry.npmjs.org/prop-types-extra/1.1.1_react@18.2.0:

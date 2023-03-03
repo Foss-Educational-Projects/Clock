@@ -1,14 +1,26 @@
-import React from "react";
-import "./assets/scss/main.scss";
+import React from 'react'
 
-import Clock from "./components/Clock";
+
+import Header from './components/modules/Header'
+import Footer from './components/modules/Footer'
+import Break from './components/Break'
+import Session from './components/Session'
+import Timer from './components/Timer'
 
 function App() {
-  return (
-    <div className="App">
-      <Clock />
-    </div>
-  );
+    return (
+        <div className="App">
+            <div className="clock">
+            <Header />
+            <div className="break-and-session">
+                <Break />
+                <Session />
+            </div>
+            <Timer />
+            <Footer />
+        </div>
+        </div>
+    )
 }
 
-export default App;
+export default App

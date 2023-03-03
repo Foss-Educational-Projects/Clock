@@ -1,12 +1,9 @@
-import { configureStore} from '@reduxjs/toolkit'
-import timerSlice from '../features/timerSlice'
-import sessionSlice  from '../features/sessionSlice'
-import breakSlice from '../features/breakSlice'
+import { configureStore } from '@reduxjs/toolkit'
+
+import slice from '../features/slice'
 
 export const store = configureStore({
-	reducer: {
-		time: timerSlice,
-		session: sessionSlice,
-		break: breakSlice
-	}
+    reducer: {
+        slice: slice
+    }
 })
