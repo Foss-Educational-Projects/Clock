@@ -1,11 +1,11 @@
 import Button from 'react-bootstrap/Button'
+import { FaMinus, FaPlus } from 'react-icons/fa'
 import { useDispatch, useSelector } from "react-redux";
-import { increaseSession, decreaseSession } from "../features/slice";
+import { handleSessionIncrement, handleSessionDecrement } from "../features/slice";
 
 const Session = () => {
 	const dispatch = useDispatch()
-	const timeResumed = useSelector((state) => state.slice.resume)
-	const session = useSelector((state) => state.slice.session)
+	const minutes = useSelector((state) => state.slice.sessionMinutes)
 	return (
 		<div className="session-section">
 			<h3 className="session-section-title" id="session-label">
@@ -13,28 +13,21 @@ const Session = () => {
 			</h3>
 			<div className="session-section-settings">
 				<Button
-					{...(timeResumed
-						? { disabled: true }
-						: { disabled: false })}
 					className="session-decrease"
 					id="session-decrement"
-					onClick={() => dispatch(decreaseSession())}
+					onClick={() => dispatch(handleSessionDecrement())}
 				>
-					<i className="fa-solid fa-minus"></i>
+					<FaMinus size={24} />
 				</Button>
 				<p className="values" id="session-length">
-					{session}
+					{minutes < 10 ? '0' + minutes : minutes}
 				</p>
 				<Button
-					{...(timeResumed
-						? { disabled: true }
-						: { disabled: false })
-					}
 					className="session-increase"
 					id="session-increment"
-					onClick={() => dispatch(increaseSession())}
+					onClick={() => dispatch(handleSessionIncrement())}
 				>
-					<i className="fa-solid fa-plus"></i>
+					<FaPlus size={24} />
 				</Button>
 			</div>
 		</div>

@@ -1,11 +1,13 @@
+// React Bootstrap Imports
 import Button from 'react-bootstrap/Button'
-import { increaseBreak, decreaseBreak } from './../features/slice'
+
+import { FaMinus, FaPlus } from 'react-icons/fa'
+import { handleBreakIncrement, handleBreakDecrement } from './../features/slice'
 import { useSelector, useDispatch } from 'react-redux'
 
 const Break = () => {
 	const dispatch = useDispatch()
-	const timeResumed = useSelector((state) => state.slice.resume)
-	const rest = useSelector((state) => state.slice.break)
+	const minutes = useSelector((state) => state.slice.breakMinutes)
 	return (
 		<div className="break-section">
 			<h3 className="break-section-title" id="break-label">
@@ -13,27 +15,21 @@ const Break = () => {
 			</h3>
 			<div className="break-section-settings">
 				<Button
-					{...(timeResumed
-						? { disabled: true }
-						: { disabled: false })}
 					className="break-decrease"
 					id="break-decrement"
-					onClick={() => dispatch(decreaseBreak())}
+					onClick={() => dispatch(handleBreakDecrement())}
 				>
-					<i className="fa-solid fa-minus"></i>
+					<FaMinus size={24} />
 				</Button>
 				<p className="values" id="break-length">
-					{rest}
+					{minutes < 10 ? '0' + minutes : minutes}
 				</p>
 				<Button
-					{...(timeResumed
-						? { disabled: true }
-						: { disabled: false })}
 					className="break-increase"
 					id="break-increment"
-					onClick={() => dispatch(increaseBreak())}
+					onClick={() => dispatch(handleBreakIncrement())}
 				>
-					<i className="fa-solid fa-plus"></i>
+					<FaPlus size={24} />
 				</Button>
 			</div>
 		</div>

@@ -1,64 +1,68 @@
-import { useDispatch } from 'react-redux'
+// React Bootstrap Imports
 import Button from 'react-bootstrap/Button'
-import {
-	countDown,
-	resumeTimer,
-	resetTimer
-} from '../features/slice'
 
-var resume = true
-var interval
-var duration = 1
+// React Icon Imports
+import { LuPlay } from "react-icons/lu";
+import { RiResetLeftLine } from "react-icons/ri";
+import { IoPauseOutline } from "react-icons/io5";
+
+// React Redux Imports
+import { useDispatch } from 'react-redux'
+
+// Redux Slice Imports
+import {
+	resetTimer,
+	startTimer,
+	pauseTimer,
+	handleSessionTimer,
+	handleBreakTimer
+} from '../features/slice'
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+// Root Component (Control)
 const Control = () => {
 	const dispatch = useDispatch()
-	const resumeCountDown = () => {
-		interval = setInterval(() => dispatch(countDown()), duration)
-		resume = false
-		dispatch(resumeTimer(true))
-		console.log(resume + '0')
-	}
+	const rest = useSelector((state) => state.slice.rest)
+	const [ start, setStart ] = useState(true)
 
-	const stopCountDown = () => {
-		clearInterval(interval)
-		resume = true
-		dispatch(resumeTimer(false))
-		console.log(resume + '1')
+	const handleStartTimer = () => {
+		// setStart(!start)
+		const interval = setInterval(() => {
+			if(start) {
+				clearInterval(interval)
+				setStart(false)
+			}
+			setStart(true)
+			clearInterval(interval)
+			console.log("Interval Working")
+				dispatch(handleSessionTimer())
+				console.log("handleBreakTimer Working")
+		}, 1000)
 	}
-
-	const resetToDefault = () => {
-		dispatch(resetTimer())
-		resume=true
-		clearInterval(interval)
-	}
+	
 	return (
 		<div className="timer-controls">
 			<Button
 				className="timer-start"
 				id="start_stop"
-				onClick={() => {
-					resume === true
-						? resumeCountDown()
-						: stopCountDown()
-				}}
+				onClick={handleStartTimer}
 			>
-				<i className="fa-solid fa-play"></i>
+				<LuPlay size={24} />
 			</Button>
 			<Button
 				className="timer-pause"
-				onClick={() => {
-					resume === undefined || resume === true
-						? resumeCountDown()
-						: stopCountDown()
-				}}
+				id='pause'
+				onClick={() => dispatch(pauseTimer())}
 			>
-				<i className="fa-solid fa-pause"></i>
+				<IoPauseOutline size={24} />
 			</Button>
 			<Button
 				className="timer-reset"
 				id="reset"
-				onClick={resetToDefault}
+				onClick={() => dispatch(resetTimer())}
 			>
-				<i className="fa-solid fa-arrows-rotate"></i>
+				<RiResetLeftLine size={24} />
 			</Button>
 		</div>
 	)

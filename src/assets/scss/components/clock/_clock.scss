@@ -10,8 +10,8 @@
     --secondary-color: chocolate;
 }
 .clock {
+    width: 400px;
     margin: 10px 0;
-    width: 100%;
     padding: 10px;
     border-radius: 10px;
     font-family: 'Open Sans', sans-serif;
@@ -22,6 +22,7 @@
 }
 
 button {
+    color: whitesmoke;
     background: none;
     border: none;
     border-radius: 50%;
@@ -47,6 +48,10 @@ button {
             left: 50%;
             transform: translate(-50%, -50%);
         }
+    }
+    &:hover {
+        transition: box-shadow, 200ms ease-in-out;
+        box-shadow: 0 0 10px var(--accent-color);
     }
     &:focus {
         transition: box-shadow, 200ms ease-in-out;
